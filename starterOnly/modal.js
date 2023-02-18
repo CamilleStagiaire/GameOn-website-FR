@@ -1,9 +1,9 @@
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
-    x.className += " responsive";
+      x.className += " responsive";
   } else {
-    x.className = "topnav";
+      x.className = "topnav";
   }
 }
 
@@ -16,42 +16,33 @@ const close = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
 const popupForm = document.querySelector("#popupForm");
 
-//let inputEmail = document.getElementById("email");
+
+// définition des variables de test
+
+// les entrées de formulaire
+const caract = 2; // nombre de caractères minimum
+const ageMin = 15; // âge minimum
+
+//les regex
+const nameFormat = /^([a-zA-Z-ç-é-è-ê\s]){2,40}$/; // verification du nom/prénon
+const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // verification de l'email
+//const quantityFormat = /^[1-9]?[0-9]{1}$|^100$/; // verification de la quantité de tournois
 
 //tableau des erreurs
-// dataError = [
-//   first.value = "qqqqq",
-//   last.value = "",
-//   email.value = "xcc",
-//   birthdate.value = ""
-
-// ]
-
-//fonction champs nuls
-function resetFormAlerts() {
-  Array.from(formData).forEach((attr) => {
-    attr.setAttribute('data-error-visible', 'true')
-    attr.setAttribute('data-valid', 'false')
-    attr.removeAttribute('data-error')
-    //attr.dataset.error= dataError[0];
-    attr.dataset.error = 'remplir ce champs';
-  })
+dataError = {
+  empty: "Merci de remplir ce champ",
+  name: `Vous devez entrer un prénom valide de minimum ${caract} caractères`,
+  email: "le format d'email n\'est pas valide",
+  birthdate: `Vous devez avoir ${ageMin} ans minimum pour participer.`,
+  condition: "Vous devez accepter les conditions générales"
 }
-
-
 
 
 function FormAlerts() {
-  for (let i = 0; i < form[0].length; i++)
-    formData.setAttribute('data-error-visible', 'true');
+  for (let i = 0; i < form[0].length; i++) {
+      // formData.setAttribute('data-error-visible', 'true');
+  }
 }
-
-
-const inscription = document.querySelector(".btn-submit");
-
-//let emailError = document.querySelector("#emailError");
-
-let checkboxInput = document.querySelector(".checkbox-input");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -65,337 +56,156 @@ function launchModal() {
 // fermer le formulaire
 close.forEach((span) => span.addEventListener("click", closeForm));
 
-//resetForm();
+resetForm();
+//event.stopPropagation
 
 
-
-inscription.addEventListener("click", function (e) {
+resetForm();
+/**
+* @param {PointerEvent} event
+*/
+document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  //alert("Formulaire envoyé !");
-  //modalbg.style.display = "";
-  //verifierEmail();
-  // resetFormAlerts();
-  //verifierFistName();
-  // verifierLastNane();
- 
-  //verifierEmail();
-  //openValid();
-  //verifierAge()
-  //let form = [];
+   //const form = e.currentTarget;
+  // const data = new FormData(form);
+  // console.log(data.get('birthdate'));
+  // console.log(form);
+  // console.log(data);
 
-  //const form = document.forms[0]
+  verifierFistName(formData[0])
+  verifierLastName(formData[1]);
+  verifierEmail(formData[2])
+  verifierAge(formData[3])
+  verifierQuantity(formData[4])
+  verifierLocation(formData[5])
+  verifierConditions(formData[6])
+})
 
-
-  const formData = new FormData(form);
-  // console.log(formData);
-  for (let [name, value] of formData) {
-
-    if (value === "") {
-console.log(formData);
-    }
-    // alert(`${name} = ${value}`); 
-  }
-});
-
-
-
+// suppimer les champs d'erreurs
+function remove(element) {
+  element.removeAttribute('data-error')
+  element.removeAttribute('data-error-visible')
+}
 
 // vérifier Prénom
-function verifierFistName() {
+function verifierFistName(element) {
   let firstName = first.value;
-  console.log(firstName);
-  if (firstName === "") {
-    formData[0].setAttribute('data-error-visible', 'true')
-    formData[0].setAttribute('data-valid', 'false')
-    //formData[0].removeAttribute('data-error')
 
-    //attr.dataset.error= dataError[0];
-    formData[0].dataset.error = "merci de remplir ce champ";
-  } else if (firstName.length < 2) {
-    formData[0].dataset.error = "Votre prénom doit contenir au moins 2 caractères";
-
+  if (firstName === "" || !firstName.match(nameFormat)) {
+      element.setAttribute('data-error-visible', 'true');
+      if (firstName === "") {
+          element.dataset.error = dataError.empty;
+      } else {
+          element.dataset.error = dataError.name;
+      }
   } else {
-    alert('valide')
-    formData[0].removeAttribute('data-error')
-    formData[0].removeAttribute('data-error-visible')
+      remove(element);
+      return true;
   }
 }
 
 // vérifier Nom
-function verifierLastName() {
-
+function verifierLastName(element) {
   let lastName = last.value;
-  //console.log(lastName);
-  if (lastName.length < 2) {
 
+  if (lastName === "" || lastName.length < 2 || !lastName.match(nameFormat)) {
+      element.setAttribute('data-error-visible', 'true');
+      if (lastName === "") {
+          element.dataset.error = dataError.empty;
+      } else {
+          element.dataset.error = dataError.name;
+      }
+  } else {
+      remove(element);
+      return true;
   }
 }
-
-// vérifier l'email
-// function verifierEmail() {
-//   let mail = email.value;
-//   let total = 0;
-//   let emailCoupe;
-//   let arobase;
-//   if (mail == "") {
-//     message.innerHTML = 'merci de remplir ce champ'
-//   } else {
-//     if (mail.includes('@') && mail.includes('.')) { // si l'email contient @ et .
-//       arobase = mail.indexOf('@'); // verifie que @ est avant le .
-//       emailCoupe = mail.substring(arobase); //l'email sera coupé à l'@
-
-//       // si email coupé à l'@ contient un . et il y a au moins 1 lettre avant l'@ et une lettre après .
-//       if (emailCoupe.includes('.') && arobase > 1 && emailCoupe.charAt(emailCoupe.length - 1) !== ".") {
-//        // message.innerHTML = "";
-//         total += 1;
-//       } else {
-//         emailError.innerHTML = 'Le format d\'Email n\'est pas valide'
-//       }
-//     } else {
-//       message.innerHTML = 'Le format d\'Email n\'est pas valide'
-//     }
-//   }
-// }
-
-
-// function age2() {
-//   let anniv = birthdate.value;
-//   let month = anniv.getMonth();
-//   function getAge(date) { 
-//     var diff = Date.now() - date.getTime();
-//     var age = new Date(diff); 
-//     return Math.abs(age.getUTCFullYear() - 1970);
-   
-// }
-
-// console.log(month);
-// alert(getAge(new Date(anniv))); //Date(année, mois, jour)
-// }
-
-// function age3() {
-//  // var aujd=new Date();
-//  //var day=aujd.getDate();
-//  //var month=aujd.getMonth();
-//    // aujd=day+"-"+month;
-  
-//  var datanniv= new Date(document.getElementById('birthdate').value);
-//  var bday= datanniv.getDate();
-//  var bmonth= datanniv.getMonth()
-//  var byear= datanniv.getFullYear()
-//    // datanniv= bday+'-'+bmonth;
-//      console.log(bday);
-//      console.log(byear);
-//     //  if(aujd==datanniv)
-//     //  {
-//     //  alert("c'est ton anniv aujourd'hui, 50% de remise!");
-//     //  }
-// }
-
-// function verifAge() {
-//   const minAge = 10;
-//   let anniv = birthdate.value;
-//   let aujd = new Date();
-//   let day = aujd.getDate();
-//   let month = aujd.getMonth();
-//   //  aujd=day+"-"+month;
-//   var diff = Date.now() - date.getTime();
-//   var age = new Date(diff);
-//   return Math.abs(age.getUTCFullYear() - 1970);
-//   //let age = Math.abs(new Date().getTime() - new Date(anniv).getTime()) / (1000 * 3600 * 24) > (minAge * 365);
-//   let datanniv = new Date(anniv);
-//   let bday = datanniv.getDate();
-//   let bmonth = datanniv.getMonth()
-//   let byear = datanniv.getFullYear()
-//   // datanniv= bday+'-'+bmonth;
-//   // console.log(bday);
-//   console.log(bday);
-//   console.log(day);
-//   console.log(month);
-//   console.log(bmonth);
-//   if (anniv === "") {
-//       formData[3].setAttribute('data-error-visible', 'true')
-//       formData[3].setAttribute('data-valid', 'false')
-//       formData[3].dataset.error = "merci de remplir ce champ";
-//   }
-//   else if (age === true) {
-
-//       alert('valide')
-//       formData[3].removeAttribute('data-error')
-//       formData[3].removeAttribute('data-error-visible')
-//   } else {
-//       formData[3].setAttribute('data-error-visible', 'true')
-//       formData[3].setAttribute('data-valid', 'false')
-//       formData[3].dataset.error = `Vous devez avoir ${minAge} ans minimum pour participer.`;
-//   }
-
-// }
-
-// function verifierAge() {
-//   let anniv = birthdate.value;
-//   const minAge = 10;
-//   let age = Math.abs(new Date().getTime() - new Date(anniv).getTime()) / (1000 * 3600 * 24) > (minAge * 365);
-//   // let bmonth= anniv.getMonth()
-
-//   let aujd = new Date();
-//   let day = aujd.getDate();
-//   let month = aujd.getMonth();
-
-//   let datanniv = new Date(anniv);
-//   // let bday= datanniv.getDate();
-//   let bmonth = datanniv.getMonth()
-//   // console.log(age);
-//   //console.log(month+1);
-//   console.log(aujd);
-//   console.log(month);
-//   console.log(bmonth);
-
-
-//   if (anniv === "") {
-//       formData[3].setAttribute('data-error-visible', 'true')
-//       formData[3].setAttribute('data-valid', 'false')
-//       formData[3].dataset.error = "merci de remplir ce champ";
-//   }
-//   else if (age === true) {
-//       alert('valide')
-//       formData[3].removeAttribute('data-error')
-//       formData[3].removeAttribute('data-error-visible')
-//   }
-//   else {
-//       formData[3].setAttribute('data-error-visible', 'true')
-//       formData[3].setAttribute('data-valid', 'false')
-//       formData[3].dataset.error = `Vous devez avoir ${minAge} ans minimum pour participer.`;
-//       resetForm();
-//   }
-// }
-
-function verifierAge() {
-  let anniv = birthdate.value;
-  const minAge = 20;
-  let age = Math.abs(new Date().getTime() - new Date(anniv).getTime()) / (1000 * 3600 * 24) > (minAge * 365);
-
- 
-  console.log(age);
-  console.log(Date());
-
-  if (anniv === "") {
-    //emailError.innerHTML = 'merci de remplir ce champ';
-    // const formFields = document.querySelectorAll('.formData')
-
-    formData[3].setAttribute('data-error-visible', 'true')
-    formData[3].setAttribute('data-valid', 'false')
-   // formData[3].removeAttribute('data-error')
-
-    //attr.dataset.error= dataError[0];
-    formData[3].dataset.error = "merci de remplir ce champ";
-
-    // emailError.innerHTML = 'merci de remplir ce champ';
-    //inputEmail.style.border= "2px solid #e54858";
-
-  }
-  else if (age === true) {
-    alert('valide')
-    formData[3].removeAttribute('data-error')
-    formData[3].removeAttribute('data-error-visible')
-  }
-  else {
-    formData[3].dataset.error = `Vous devez avoir ${minAge} ans minimum pour participer.`;
-  }
-}
-
-
-function verifierQuantity() {
-
-}
-
-function verifierLocation() {
-
-}
-
-function verifierCheckbox() {
-
-}
-
-// reinitialier le formulaire lorsqu'il est complet
-function resetForm() {
-  document.querySelector("#form").reset();
-}
-
-
 
 // Vérifier l'Email
-function verifierEmail() {
+function verifierEmail(element) {
   let mail = email.value;
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (mail === "") {
-    //emailError.innerHTML = 'merci de remplir ce champ';
-   
 
-    formData[2].setAttribute('data-error-visible', 'true')
-    formData[2].setAttribute('data-valid', 'false')
-    formData[2].removeAttribute('data-error')
-
-    //attr.dataset.error= dataError[0];
-    formData[2].dataset.error = "merci de remplir ce champ";
-
-    // emailError.innerHTML = 'merci de remplir ce champ';
-    //inputEmail.style.border= "2px solid #e54858";
-  }
-  else if (mail.match(mailformat)) {
-    alert(" valide !");
-  }
-  else {
-    formData[2].dataset.error = "le format n\'est pas valide";
+  if (mail === "" || !mail.match(mailFormat)) {
+      element.setAttribute('data-error-visible', 'true');
+      if (mail === "") {
+          element.dataset.error = dataError.empty;
+      } else {
+          element.dataset.error = dataError.email;
+      }
+  } else {
+      remove(element);
+      return true;
   }
 }
 
-// vérifier email (la bonne)
-function verifierEmail() {
-  let mail = email.value;
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (mail === "") {
-
-      formData[2].setAttribute('data-error-visible', 'true')
-      formData[2].setAttribute('data-valid', 'false')
-      //formData[2].removeAttribute('data-error')
-
-      //attr.dataset.error= dataError[0];
-      formData[2].dataset.error = "merci de remplir ce champ";
-  }
-  else if (mail.match(mailformat)) {
-      alert(" valide !");
-  }
-  else {
-      formData[2].dataset.error = "le format n\'est pas valide";
-  }
-}
-
-// vérifier age(la bonne)
-function verifierAge2() {
-    
+// vérifier age
+function verifierAge(element) {
   let ageValue = birthdate.value;
+  let ddn = getAge(new Date(ageValue));
 
   function getAge(date) {
       let diff = Date.now() - date.getTime();
       let age = new Date(diff);
       return Math.abs(age.getUTCFullYear() - 1970);
   }
-  let ddn = getAge(new Date(ageValue));
 
   if (ageValue === "" || ddn < ageMin) {
-      formData[3].setAttribute('data-error-visible', 'true');
+      element.setAttribute('data-error-visible', 'true');
       if (ageValue === "") {
-          formData[3].dataset.error = "Vous devez entrer votre date de naissance";
+          element.dataset.error = dataError.empty;
       } else {
-          formData[3].dataset.error = `Vous devez avoir ${ageMin} ans minimum pour participer.`;
+          element.dataset.error = dataError.birthdate;
       }
   } else {
-      total += 1;
-      formData[3].removeAttribute('data-error')
-      formData[3].removeAttribute('data-error-visible')
+      remove(element);
+      return true;
   }
 }
 
+// vérifier quantité de tournois
+function verifierQuantity(element) {
+  let tournois = quantity.value;
+
+  if (tournois === "") {
+      element.setAttribute('data-error-visible', 'true');
+      element.dataset.error = dataError.empty;
+
+  } else {
+      remove(element);
+      return true;
+  }
+}
+
+// vérifier le bouton radio
+function verifierLocation(element) {
+  let checkbox = document.querySelectorAll(".location");
+
+  for (var i = 0; i < checkbox.length; i++) {
+      if (checkbox[i].checked === true) break;
+  }
+  
+  console.log('value => ' + checkbox[i].value);
+  return true;
+}
+
+//vérifier conditions générales
+function verifierConditions(element) {
+  let conditions = document.querySelector("#checkbox1")
+  if (!conditions.checked) {
+      console.log(conditions.value);
+      element.setAttribute('data-error-visible', 'true');
+      element.dataset.error = dataError.condition;
+  } else {
+      remove(element);
+      return true;
+  }
+}
+
+// reinitialier le formulaire lorsqu'il est complet
+function resetForm() {
+  document.querySelector("#form").reset();
+}
 
 //popup de validation du formulaire
 function openValid() {
