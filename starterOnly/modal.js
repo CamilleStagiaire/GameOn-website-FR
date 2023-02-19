@@ -1,9 +1,9 @@
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
-      x.className += " responsive";
+    x.className += " responsive";
   } else {
-      x.className = "topnav";
+    x.className = "topnav";
   }
 }
 
@@ -16,8 +16,9 @@ const close = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
 const popupForm = document.querySelector("#popupForm");
 
-
-// définition des variables de test
+/**
+ * définition des variables de test
+ */
 
 // les entrées de formulaire
 const caract = 2; // nombre de caractères minimum
@@ -37,13 +38,6 @@ dataError = {
   condition: "Vous devez accepter les conditions générales"
 }
 
-
-function FormAlerts() {
-  for (let i = 0; i < form[0].length; i++) {
-      // formData.setAttribute('data-error-visible', 'true');
-  }
-}
-
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -54,14 +48,11 @@ function launchModal() {
   popupForm.style.display = "none";
 }
 
-// fermer le formulaire
+// fermeture des modals
 close.forEach((span) => span.addEventListener("click", closeForm));
 
-resetForm();
-//event.stopPropagation
-
-//fermer la modale d'inscription
-document.querySelector('.valid').addEventListener('click', closeForm)
+//fermeture de la modale de validation d'inscription
+document.querySelector('.valid').addEventListener('click', closeForm);
 
 /**
 * @param {PointerEvent} event
@@ -69,154 +60,164 @@ document.querySelector('.valid').addEventListener('click', closeForm)
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
 
-   //const form = e.currentTarget;
-  // const data = new FormData(form);
-  // console.log(data.get('birthdate'));
-  // console.log(form);
-  // console.log(data);
-
-  if(verifierFistName(formData[0])){
-openValid()
-resetForm()
-  } 
-
-
-  //verifierLastName(formData[1]);
- // verifierEmail(formData[2])
-  //verifierAge(formData[3])
-  //verifierQuantity(formData[4])
-  //verifierLocation(formData[5])
-  //verifierConditions(formData[6])
+  if (verifierFistName(formData[0]) && verifierLastName(formData[1]) && verifierEmail(formData[2]) && verifierAge(formData[3]) && verifierQuantity(formData[4]) && verifierLocation() && verifierConditions(formData[6])) {
+    openValid();
+    resetForm();
+  }
 })
 
-function verify() {
-  verifierFistName(formData[0])
-  //verifierLastName(formData[1]);
-  //verifierEmail(formData[2])
- // verifierAge(formData[3])
- // verifierQuantity(formData[4])
- // verifierLocation(formData[5])
- // verifierConditions(formData[6])
-  return true;
-}
-
-// suppimer les champs d'erreurs
+/**
+ * suppimer les champs d'erreurs
+ *  @param {NodeList[]} element 
+ */
 function remove(element) {
   element.removeAttribute('data-error')
   element.removeAttribute('data-error-visible')
 }
 
-// vérifier Prénom
+/**
+ * vérifier le prénom
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierFistName(element) {
   let firstName = first.value;
 
   if (firstName === "" || !firstName.match(nameFormat)) {
-      element.setAttribute('data-error-visible', 'true');
-      if (firstName === "") {
-          element.dataset.error = dataError.empty;
-      } else {
-          element.dataset.error = dataError.name;
-      }
+    element.setAttribute('data-error-visible', 'true');
+    if (firstName === "") {
+      element.dataset.error = dataError.empty;
+    } else {
+      element.dataset.error = dataError.name;
+    }
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
 
-// vérifier Nom
+/**
+ * vérifier le Nom
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierLastName(element) {
   let lastName = last.value;
 
   if (lastName === "" || lastName.length < 2 || !lastName.match(nameFormat)) {
-      element.setAttribute('data-error-visible', 'true');
-      if (lastName === "") {
-          element.dataset.error = dataError.empty;
-      } else {
-          element.dataset.error = dataError.name;
-      }
+    element.setAttribute('data-error-visible', 'true');
+    if (lastName === "") {
+      element.dataset.error = dataError.empty;
+    } else {
+      element.dataset.error = dataError.name;
+    }
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
 
-// Vérifier l'Email
+/**
+ * vérifier l'Email
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierEmail(element) {
   let mail = email.value;
 
   if (mail === "" || !mail.match(mailFormat)) {
-      element.setAttribute('data-error-visible', 'true');
-      if (mail === "") {
-          element.dataset.error = dataError.empty;
-      } else {
-          element.dataset.error = dataError.email;
-      }
+    element.setAttribute('data-error-visible', 'true');
+    if (mail === "") {
+      element.dataset.error = dataError.empty;
+    } else {
+      element.dataset.error = dataError.email;
+    }
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
 
-// vérifier age
+/**
+ * vérifier l'age
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierAge(element) {
   let ageValue = birthdate.value;
   let ddn = getAge(new Date(ageValue));
 
+  /**
+   * calcul de l'age
+   * @param {number} date 
+   * @returns {number}
+   */
   function getAge(date) {
-      let diff = Date.now() - date.getTime();
-      let age = new Date(diff);
-      return Math.abs(age.getUTCFullYear() - 1970);
+    let diff = Date.now() - date.getTime();
+    let age = new Date(diff);
+    return Math.abs(age.getUTCFullYear() - 1970);
   }
 
   if (ageValue === "" || ddn < ageMin) {
-      element.setAttribute('data-error-visible', 'true');
-      if (ageValue === "") {
-          element.dataset.error = dataError.empty;
-      } else {
-          element.dataset.error = dataError.birthdate;
-      }
+    element.setAttribute('data-error-visible', 'true');
+    if (ageValue === "") {
+      element.dataset.error = dataError.empty;
+    } else {
+      element.dataset.error = dataError.birthdate;
+    }
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
-
-// vérifier quantité de tournois
+ 
+/**
+ * vérifier la quantité de tournois
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierQuantity(element) {
   let tournois = quantity.value;
 
   if (tournois === "") {
-      element.setAttribute('data-error-visible', 'true');
-      element.dataset.error = dataError.empty;
+    element.setAttribute('data-error-visible', 'true');
+    element.dataset.error = dataError.empty;
 
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
 
-// vérifier le bouton radio
-function verifierLocation(element) {
+/**
+ * vérifier le bouton radio sélectionné
+ * @returns {boolean}
+ */
+function verifierLocation() {
   let checkbox = document.querySelectorAll(".location");
 
   for (var i = 0; i < checkbox.length; i++) {
-      if (checkbox[i].checked === true) break;
+    if (checkbox[i].checked === true) break;
   }
-  
   console.log('value => ' + checkbox[i].value);
   return true;
 }
 
-//vérifier conditions générales
+/**
+ * vérifier les conditions générales checked
+ * @param {NodeList[]} element 
+ * @returns {boolean}
+ */
 function verifierConditions(element) {
   let conditions = document.querySelector("#checkbox1")
+  
   if (!conditions.checked) {
-      console.log(conditions.value);
-      element.setAttribute('data-error-visible', 'true');
-      element.dataset.error = dataError.condition;
+    console.log(conditions.value);
+    element.setAttribute('data-error-visible', 'true');
+    element.dataset.error = dataError.condition;
   } else {
-      remove(element);
-      return true;
+    remove(element);
+    return true;
   }
 }
 
@@ -230,13 +231,6 @@ function openValid() {
   content.style.display = "none";
   popupForm.style.display = "block";
 }
-
-//fermer la popup de validation
-// function closeValid() {
-//   closeForm;
-//   popupForm.style.display = "none";
-  
-// }
 
 //fermer le formulaire
 function closeForm() {
