@@ -51,6 +51,7 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
   content.style.display = "block";
+  popupForm.style.display = "none";
 }
 
 // fermer le formulaire
@@ -59,8 +60,9 @@ close.forEach((span) => span.addEventListener("click", closeForm));
 resetForm();
 //event.stopPropagation
 
+//fermer la modale d'inscription
+document.querySelector('.valid').addEventListener('click', closeForm)
 
-resetForm();
 /**
 * @param {PointerEvent} event
 */
@@ -73,14 +75,30 @@ document.querySelector('form').addEventListener('submit', (e) => {
   // console.log(form);
   // console.log(data);
 
-  verifierFistName(formData[0])
-  verifierLastName(formData[1]);
-  verifierEmail(formData[2])
-  verifierAge(formData[3])
-  verifierQuantity(formData[4])
-  verifierLocation(formData[5])
-  verifierConditions(formData[6])
+  if(verifierFistName(formData[0])){
+openValid()
+resetForm()
+  } 
+
+
+  //verifierLastName(formData[1]);
+ // verifierEmail(formData[2])
+  //verifierAge(formData[3])
+  //verifierQuantity(formData[4])
+  //verifierLocation(formData[5])
+  //verifierConditions(formData[6])
 })
+
+function verify() {
+  verifierFistName(formData[0])
+  //verifierLastName(formData[1]);
+  //verifierEmail(formData[2])
+ // verifierAge(formData[3])
+ // verifierQuantity(formData[4])
+ // verifierLocation(formData[5])
+ // verifierConditions(formData[6])
+  return true;
+}
 
 // suppimer les champs d'erreurs
 function remove(element) {
@@ -209,14 +227,16 @@ function resetForm() {
 
 //popup de validation du formulaire
 function openValid() {
+  content.style.display = "none";
   popupForm.style.display = "block";
 }
 
 //fermer la popup de validation
-function closeValid() {
-  popupForm.style.display = "none";
-  closeForm();
-}
+// function closeValid() {
+//   closeForm;
+//   popupForm.style.display = "none";
+  
+// }
 
 //fermer le formulaire
 function closeForm() {

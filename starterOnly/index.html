@@ -45,17 +45,16 @@
 						de jeux vidéos
 					</h1>
 					<p class="hero-text">
-						Vous aimez jouer ? Notre prochain évènement gaming est ouvert
-																								            aux réservations... Places limitées !
+						Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux réservations... Places limitées !
 					</p>
 					<button class="btn-signup modal-btn">
 						je m'inscris
 					</button>
 				</div>
 				<div class="hero-img">
-					<img src="./bg_img.jpg" alt="img">
+					<img src="./bg_img.jpg" alt="img"/>
 				</div>
-				<button class="btn-signup modal-btn respons">
+				<button class="btn-signup modal-btn">
 					je m'inscris
 				</button>
 
@@ -64,19 +63,25 @@
 
 			<div class="bground">
 				<div class="form-popup" id="popupForm">
-					<p>Merci de votre inscription</p>
-					<button type="button" class="btn cancel" onclick="closeForm()">Fermer</button>
+
+					<span class="close"></span>
+					<div class="flex">
+						<p>Merci pour votre inscription</p>
+						<button class="btn-signup modal-btn valid">
+							Fermer
+						</button>
+					</div>
 				</div>
 				<div class="content">
 					<span class="close"></span>
 					<div class="modal-body">
 						<form id="form" name="reserve" action="index.html" method="get">
 							<div class="formData">
-								<label>Prénom</label><br>
+								<label for="first">Prénom</label><br>
 								<input class="text-control" type="text" id="first" name="first"><br>
 							</div>
 							<div class="formData">
-								<label>Nom</label><br>
+								<label for="last">Nom</label><br>
 								<input class="text-control" type="text" id="last" name="last"><br>
 							</div>
 							<div class="formData">
@@ -84,11 +89,11 @@
 								<input class="text-control" type="email" id="email" name="email"><br>
 							</div>
 							<div class="formData">
-								<label>Date de naissance</label><br>
+								<label for="birthdate">Date de naissance</label><br>
 								<input class="text-control" type="date" id="birthdate" name="birthdate"><br>
 							</div>
 							<div class="formData">
-								<label class="text-label">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
+								<label class="text-label" for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
 								<input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
 							</div>
 							<p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
