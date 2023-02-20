@@ -48,13 +48,14 @@ function launchModal() {
   popupForm.style.display = "none";
 }
 
-// fermeture des modals
+// fermeture des modals (au X)
 close.forEach((span) => span.addEventListener("click", closeForm));
 
 //fermeture de la modale de validation d'inscription
 document.querySelector('.valid').addEventListener('click', closeForm);
 
 /**
+ * soumission du formumlaire
 * @param {PointerEvent} event
 */
 document.querySelector('form').addEventListener('submit', (e) => {
@@ -67,13 +68,8 @@ document.querySelector('form').addEventListener('submit', (e) => {
 })
 
 /**
- * suppimer les champs d'erreurs
- *  @param {NodeList[]} element 
+ * Les fonctions de verificartion du formulaire
  */
-function remove(element) {
-  element.removeAttribute('data-error')
-  element.removeAttribute('data-error-visible')
-}
 
 /**
  * vérifier le prénom
@@ -221,6 +217,15 @@ function verifierConditions(element) {
   }
 }
 
+/**
+ * supprimer les champs d'erreurs
+ *  @param {NodeList[]} element 
+ */
+function remove(element) {
+  element.removeAttribute('data-error')
+  element.removeAttribute('data-error-visible')
+}
+
 // reinitialier le formulaire lorsqu'il est complet
 function resetForm() {
   document.querySelector("#form").reset();
@@ -232,7 +237,7 @@ function openValid() {
   popupForm.style.display = "block";
 }
 
-//fermer le formulaire
+//fermeture du formulaire
 function closeForm() {
   content.style.display = "none";
   modalbg.style.display = "none";
