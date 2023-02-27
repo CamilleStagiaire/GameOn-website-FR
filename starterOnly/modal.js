@@ -61,14 +61,23 @@ document.querySelector('.valid').addEventListener('click', closeForm);
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  if (verifierFistName(formData[0]) && verifierLastName(formData[1]) && verifierEmail(formData[2]) && verifierAge(formData[3]) && verifierQuantity(formData[4]) && verifierLocation() && verifierConditions(formData[6])) {
+  const arr = [verifierFistName(formData[0]),
+  verifierLastName(formData[1]),
+  verifierEmail(formData[2]), verifierAge(formData[3]),
+  verifierQuantity(formData[4]), verifierLocation(),
+  verifierQuantity(formData[4]) && verifierLocation(),
+  verifierConditions(formData[6])
+  ]
+  let formValide = arr.every(ele => ele === true);
+
+  if (formValide === true) {
     openValid();
     resetForm();
   }
 })
 
 /**
- * Les fonctions de verificartion du formulaire
+ * Les fonctions de verification du formulaire
  */
 
 /**
@@ -166,7 +175,7 @@ function verifierAge(element) {
     return true;
   }
 }
- 
+
 /**
  * vérifier la quantité de tournois
  * @param {NodeList[]} element 
@@ -206,7 +215,7 @@ function verifierLocation() {
  */
 function verifierConditions(element) {
   let conditions = document.querySelector("#checkbox1")
-  
+
   if (!conditions.checked) {
     console.log(conditions.value);
     element.setAttribute('data-error-visible', 'true');
