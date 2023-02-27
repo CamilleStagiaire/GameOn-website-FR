@@ -11,7 +11,6 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-
 const close = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
 const popupForm = document.querySelector("#popupForm");
@@ -55,7 +54,7 @@ close.forEach((span) => span.addEventListener("click", closeForm));
 document.querySelector('.valid').addEventListener('click', closeForm);
 
 /**
- * soumission du formumlaire
+ * soumission du formulaire
 * @param {PointerEvent} event
 */
 document.querySelector('form').addEventListener('submit', (e) => {
@@ -65,11 +64,10 @@ document.querySelector('form').addEventListener('submit', (e) => {
   verifierLastName(formData[1]),
   verifierEmail(formData[2]), verifierAge(formData[3]),
   verifierQuantity(formData[4]), verifierLocation(),
-  verifierQuantity(formData[4]) && verifierLocation(),
   verifierConditions(formData[6])
   ]
-  let formValide = arr.every(ele => ele === true);
 
+  let formValide = arr.every(ele => ele === true);
   if (formValide === true) {
     openValid();
     resetForm();
@@ -217,7 +215,6 @@ function verifierConditions(element) {
   let conditions = document.querySelector("#checkbox1")
 
   if (!conditions.checked) {
-    console.log(conditions.value);
     element.setAttribute('data-error-visible', 'true');
     element.dataset.error = dataError.condition;
   } else {
