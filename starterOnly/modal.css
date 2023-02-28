@@ -20,8 +20,8 @@
 
 .closed button {
   width: 50%;
-margin: auto;
-margin-top: 60%;
+  margin: auto;
+  margin-top: 60%;
 }
 
 /* Landing Page */
@@ -160,7 +160,8 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
-.content, .form-popup {
+.content,
+.popupForm {
   margin: 5% auto;
   width: 100%;
   max-width: 500px;
@@ -639,16 +640,18 @@ MEDIA QUERIES max-width:540px
     flex-wrap: wrap;
   }
 
-  .content, .form-popup {
+  .content,
+  .popupForm {
     margin-top: 20%;
   }
+
   label,
   .text-label,
   .checkbox-label {
     font-size: 12px;
   }
 
-  
+
 
   .copyrights {
     margin-top: -20px;

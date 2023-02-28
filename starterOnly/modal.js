@@ -13,7 +13,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const close = document.querySelectorAll(".close");
 const content = document.querySelector(".content");
-const popupForm = document.querySelector("#popupForm");
+const popupForm = document.querySelector(".popupForm");
 
 /**
  * définition des variables de test
@@ -48,7 +48,7 @@ function launchModal() {
 }
 
 // fermeture des modals (au X)
-close.forEach((span) => span.addEventListener("click", closeForm));
+close.forEach((close) => close.addEventListener("click", closeForm));
 
 //fermeture de la modale de validation d'inscription
 document.querySelector('.valid').addEventListener('click', closeForm);
