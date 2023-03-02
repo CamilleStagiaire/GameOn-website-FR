@@ -20,20 +20,19 @@ const popupForm = document.querySelector(".popupForm");
  */
 
 // les entrées de formulaire
-const caract = 2; // nombre de caractères minimum
-const ageMin = 15; // âge minimum
+const CARACT_MINI = 2; // nombre de caractères minimum
+const AGE_MIN = 15; // âge minimum
 
 //les regex
-const nameFormat = /^([a-zA-Z-ç-é-è-ê\s]){2,40}$/; // verification du nom/prénon
-const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // verification de l'email
-//const quantityFormat = /^[1-9]?[0-9]{1}$|^100$/; // verification de la quantité de tournois
+const nameFormat = /^([a-zA-Z-ç-é-è-ê\s])+$/; // vérification du nom/prénom
+const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // vérification de l'email
 
 //tableau des erreurs
 dataError = {
   empty: "Merci de remplir ce champ",
-  name: `Vous devez entrer un prénom valide de minimum ${caract} caractères`,
+  name: `Vous devez entrer un prénom valide de minimum ${CARACT_MINI} caractères`,
   email: "le format d'email n\'est pas valide",
-  birthdate: `Vous devez avoir ${ageMin} ans minimum pour participer.`,
+  birthdate: `Vous devez avoir ${AGE_MIN} ans minimum pour participer`,
   condition: "Vous devez accepter les conditions générales"
 }
 
@@ -86,7 +85,7 @@ document.querySelector('form').addEventListener('submit', (e) => {
 function verifierFistName(element) {
   let firstName = first.value;
 
-  if (firstName === "" || !firstName.match(nameFormat)) {
+  if (firstName === "" || firstName.length < CARACT_MINI || !firstName.match(nameFormat)) {
     element.setAttribute('data-error-visible', 'true');
     if (firstName === "") {
       element.dataset.error = dataError.empty;
@@ -106,8 +105,9 @@ function verifierFistName(element) {
  */
 function verifierLastName(element) {
   let lastName = last.value;
-
-  if (lastName === "" || lastName.length < 2 || !lastName.match(nameFormat)) {
+  
+  if (lastName === "" || lastName.length < CARACT_MINI || !lastName.match(nameFormat)) {
+    console.log(CARACT_MINI);
     element.setAttribute('data-error-visible', 'true');
     if (lastName === "") {
       element.dataset.error = dataError.empty;
@@ -161,7 +161,7 @@ function verifierAge(element) {
     return Math.abs(age.getUTCFullYear() - 1970);
   }
 
-  if (ageValue === "" || ddn < ageMin) {
+  if (ageValue === "" || ddn < AGE_MIN) {
     element.setAttribute('data-error-visible', 'true');
     if (ageValue === "") {
       element.dataset.error = dataError.empty;
