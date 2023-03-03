@@ -59,11 +59,13 @@ document.querySelector('.valid').addEventListener('click', closeForm);
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const arr = [verifierFistName(formData[0]),
-  verifierLastName(formData[1]),
-  verifierEmail(formData[2]), verifierAge(formData[3]),
-  verifierQuantity(formData[4]), verifierLocation(),
-  verifierConditions(formData[6])
+  const arr = [verifierFistName(),
+  verifierLastName(),
+  verifierEmail(),
+  verifierAge(),
+  verifierQuantity(),
+  verifierLocation(),
+  verifierConditions()
   ]
 
   let formValide = arr.every(ele => ele === true);
@@ -79,74 +81,70 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
 /**
  * vérifier le prénom
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierFistName(element) {
+function verifierFistName() {
   let firstName = first.value;
 
   if (firstName === "" || firstName.length < CARACT_MINI || !firstName.match(nameFormat)) {
-    element.setAttribute('data-error-visible', 'true');
+    first.closest('.formData').setAttribute('data-error-visible', 'true');
     if (firstName === "") {
-      element.dataset.error = dataError.empty;
+      first.closest('.formData').dataset.error = dataError.empty;
     } else {
-      element.dataset.error = dataError.name;
+      first.closest('.formData').dataset.error = dataError.name;
     }
   } else {
-    remove(element);
+    remove(first.closest('.formData'));
     return true;
   }
 }
 
 /**
  * vérifier le Nom
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierLastName(element) {
+function verifierLastName() {
   let lastName = last.value;
-  
+
   if (lastName === "" || lastName.length < CARACT_MINI || !lastName.match(nameFormat)) {
     console.log(CARACT_MINI);
-    element.setAttribute('data-error-visible', 'true');
+    last.closest('.formData').setAttribute('data-error-visible', 'true');
     if (lastName === "") {
-      element.dataset.error = dataError.empty;
+      last.closest('.formData').dataset.error = dataError.empty;
     } else {
-      element.dataset.error = dataError.name;
+      last.closest('.formData').dataset.error = dataError.name;
     }
   } else {
-    remove(element);
+    remove(last.closest('.formData'));
     return true;
   }
 }
 
 /**
  * vérifier l'Email
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierEmail(element) {
+function verifierEmail() {
   let mail = email.value;
 
   if (mail === "" || !mail.match(mailFormat)) {
-    element.setAttribute('data-error-visible', 'true');
+    email.closest('.formData').setAttribute('data-error-visible', 'true');
     if (mail === "") {
-      element.dataset.error = dataError.empty;
+      email.closest('.formData').dataset.error = dataError.empty;
     } else {
-      element.dataset.error = dataError.email;
+      email.closest('.formData').dataset.error = dataError.email;
     }
   } else {
-    remove(element);
+    remove(email.closest('.formData'));
     return true;
   }
 }
 
 /**
  * vérifier l'age
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierAge(element) {
+function verifierAge() {
   let ageValue = birthdate.value;
   let ddn = getAge(new Date(ageValue));
 
@@ -162,32 +160,31 @@ function verifierAge(element) {
   }
 
   if (ageValue === "" || ddn < AGE_MIN) {
-    element.setAttribute('data-error-visible', 'true');
+    birthdate.closest('.formData').setAttribute('data-error-visible', 'true');
     if (ageValue === "") {
-      element.dataset.error = dataError.empty;
+      birthdate.closest('.formData').dataset.error = dataError.empty;
     } else {
-      element.dataset.error = dataError.birthdate;
+      birthdate.closest('.formData').dataset.error = dataError.birthdate;
     }
   } else {
-    remove(element);
+    remove(birthdate.closest('.formData'));
     return true;
   }
 }
 
 /**
  * vérifier la quantité de tournois
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierQuantity(element) {
+function verifierQuantity() {
   let tournois = quantity.value;
 
   if (tournois === "") {
-    element.setAttribute('data-error-visible', 'true');
-    element.dataset.error = dataError.empty;
+    quantity.closest('.formData').setAttribute('data-error-visible', 'true');
+    quantity.closest('.formData').dataset.error = dataError.empty;
 
   } else {
-    remove(element);
+    remove(quantity.closest('.formData'));
     return true;
   }
 }
@@ -208,24 +205,23 @@ function verifierLocation() {
 
 /**
  * vérifier les conditions générales checked
- * @param {NodeList[]} element 
  * @returns {boolean}
  */
-function verifierConditions(element) {
+function verifierConditions() {
   let conditions = document.querySelector("#checkbox1")
 
   if (!conditions.checked) {
-    element.setAttribute('data-error-visible', 'true');
-    element.dataset.error = dataError.condition;
+    checkbox1.closest('.formData').setAttribute('data-error-visible', 'true');
+    checkbox1.closest('.formData').dataset.error = dataError.condition;
   } else {
-    remove(element);
+    remove(checkbox1.closest('.formData'));
     return true;
   }
 }
 
 /**
  * supprimer les champs d'erreurs
- *  @param {NodeList[]} element 
+ *  @param element 
  */
 function remove(element) {
   element.removeAttribute('data-error')
